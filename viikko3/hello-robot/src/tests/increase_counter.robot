@@ -2,6 +2,9 @@
 Resource  resource.robot
 Library  ../CounterLibrary.py
 
+*** Keywords ***
+Increase Counter
+Increase Counter Three Times
 
 *** Test Cases ***
 Increase Counter Once

@@ -6,6 +6,8 @@ authors = ["Kalle Ilves <kalle.ilves@helsinki.fi>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+robotframework = "^6.0.1"
+robot = "^20071211"
 
 [tool.poetry.dev-dependencies]
 robotframework = "^6.0.0"
