@@ -1,4 +1,4 @@
-## Retro
+### Retro
 
 Retrospektiivi on tarkoitettu kehitystiimin yhteistyön ja kehitystyön parantamiseksi. Retrospektiivi on yksi scrumin seremonioista eli tavanomaisemmin palavereista, jota fasilitoi Scrum master tai muu kehitystiimin jäsen.
 
