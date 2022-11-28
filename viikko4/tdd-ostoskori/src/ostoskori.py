@@ -21,7 +21,7 @@ class Ostoskori:
         for ostos_jo_korissa in self._ostoskori:
             if ostos_jo_korissa.tuotteen_nimi() == ostos.tuotteen_nimi():
                 onko_korissa = True
-                ostos.muuta_lukumaaraa(ostos.lukumaara)
+                ### muuta tämä ostos.muuta_lukumaaraa(ostos.lukumaara)
         if not onko_korissa:
             self._ostoskori.append(ostos)
         self._maara += ostos.lukumaara()
