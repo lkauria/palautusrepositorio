@@ -7,30 +7,38 @@ from tuote import Tuote
 
 
 class TestKauppa(unittest.TestCase):
-    # alustetaan Mockit kaikille testeille tässä
+    # alustetaan mockit ja toistuvat stepit kaikille testeille tässä
     def setUp(self):
         self.pankki_mock = Mock()
         self.viitegeneraattori_mock = Mock()
         self.viitegeneraattori_mock.uusi.return_value = 1
         self.varasto_mock = Mock()
         self.kauppa = Kauppa(self.varasto_mock, self.pankki_mock, self.viitegeneraattori_mock)
-        
 
-    def test_ostoksen_paaytyttya_pankin_metodia_tilisiirto_kutsutaan(self):
         # tehdään toteutus saldo-metodille
         def varasto_saldo(tuote_id):
             if tuote_id == 1:
                 return 10
+            if tuote_id == 2:
+                return 10
+            if tuote_id == 3:
+                return 0    
 
-        # tehdään toteutus hae_tuote-metodille
+        # haetaan varastosta tuoteet
         def varasto_hae_tuote(tuote_id):
             if tuote_id == 1:
                 return Tuote(1, "maito", 5)
+            if tuote_id == 2:
+                return Tuote(2, "jauhot", 2)
+            if tuote_id == 3:
+                return Tuote(3, "kanamuna", 5)
 
         # otetaan toteutukset käyttöön
         self.varasto_mock.saldo.side_effect = varasto_saldo
-        self.varasto_mock.hae_tuote.side_effect = varasto_hae_tuote
+        self.varasto_mock.hae_tuote.side_effect = varasto_hae_tuote       
 
+        
+    def test_ostoksen_paaytyttya_pankin_metodia_tilisiirto_kutsutaan(self):
         # tehdään ostokset
         self.kauppa.aloita_asiointi()
         self.kauppa.lisaa_koriin(1)
@@ -41,20 +49,6 @@ class TestKauppa(unittest.TestCase):
         # toistaiseksi ei välitetä kutsuun liittyvistä argumenteista
 
     def test_koriin_tuote_jota_loytyy_varastosta_ja_ostetaan(self):
-        # tehdään toteutus saldo-metodille
-        def varasto_saldo(tuote_id):
-            if tuote_id == 1:
-                return 10
-
-        # tehdään toteutus hae_tuote-metodille
-        def varasto_hae_tuote(tuote_id):
-            if tuote_id == 1:
-                return Tuote(1, "maito", 5)
-
-        # otetaan toteutukset käyttöön
-        self.varasto_mock.saldo.side_effect = varasto_saldo
-        self.varasto_mock.hae_tuote.side_effect = varasto_hae_tuote
-
         # tehdään ostokset
         self.kauppa.aloita_asiointi()
         self.kauppa.lisaa_koriin(1)
@@ -63,24 +57,6 @@ class TestKauppa(unittest.TestCase):
         self.pankki_mock.tilisiirto.assert_called_with("Arto Vihavainen", ANY, "3425-1652", "33333-44455", 5)
 
     def test_ostoskoriin_kaksi_eri_tuotetta_joita_varastossa_suoritetaan_ostos(self):
-        # tehdään toteutus saldo-metodille
-        def varasto_saldo(tuote_id):
-            if tuote_id == 1:
-                return 10
-            if tuote_id == 2:
-                return 10
-        
-        # tehdään toteutus hae_tuote-metodille
-        def varasto_hae_tuote(tuote_id):
-            if tuote_id == 1:
-                return Tuote(1, "maito", 5)
-            if tuote_id == 2:
-                return Tuote(2, "jauhot", 2)
-
-        # otetaan toteutukset käyttöön
-        self.varasto_mock.saldo.side_effect = varasto_saldo
-        self.varasto_mock.hae_tuote.side_effect = varasto_hae_tuote
-
         # tehdään ostokset
         self.kauppa.aloita_asiointi()
         self.kauppa.lisaa_koriin(1)
@@ -90,20 +66,6 @@ class TestKauppa(unittest.TestCase):
         self.pankki_mock.tilisiirto.assert_called_with("Arto Vihavainen", ANY, "3425-1652", "33333-44455", 7)
 
     def test_ostoskoriin_kaksi_samaa_tuotetta_joita_varastossa_suoritetaan_ostos(self):
-        # tehdään toteutus saldo-metodille
-        def varasto_saldo(tuote_id):
-            if tuote_id == 1:
-                return 10
-        
-        # tehdään toteutus hae_tuote-metodille
-        def varasto_hae_tuote(tuote_id):
-            if tuote_id == 1:
-                return Tuote(1, "maito", 5)
-
-        # otetaan toteutukset käyttöön
-        self.varasto_mock.saldo.side_effect = varasto_saldo
-        self.varasto_mock.hae_tuote.side_effect = varasto_hae_tuote
-
         # tehdään ostokset
         self.kauppa.aloita_asiointi()
         self.kauppa.lisaa_koriin(1)
@@ -113,28 +75,38 @@ class TestKauppa(unittest.TestCase):
         self.pankki_mock.tilisiirto.assert_called_with("Arto Vihavainen", ANY, "3425-1652", "33333-44455", 10)
 
     def test_ostoskoriin_kaksi_eri_tuotetta_joista_toinen_loppunut_suoritetaan_ostos(self):
-        # tehdään toteutus saldo-metodille
-        def varasto_saldo(tuote_id):
-            if tuote_id == 1:
-                return 10
-            if tuote_id == 2:
-                return 0
-        
-        # tehdään toteutus hae_tuote-metodille
-        def varasto_hae_tuote(tuote_id):
-            if tuote_id == 1:
-                return Tuote(1, "maito", 5)
-            if tuote_id == 2:
-                return Tuote(2, "jauhot", 2)
-
-        # otetaan toteutukset käyttöön
-        self.varasto_mock.saldo.side_effect = varasto_saldo
-        self.varasto_mock.hae_tuote.side_effect = varasto_hae_tuote
-
         # tehdään ostokset
         self.kauppa.aloita_asiointi()
         self.kauppa.lisaa_koriin(1)
-        self.kauppa.lisaa_koriin(2)
+        self.kauppa.lisaa_koriin(3)
         self.kauppa.tilimaksu("Arto Vihavainen", "3425-1652")
 
         self.pankki_mock.tilisiirto.assert_called_with("Arto Vihavainen", ANY, "3425-1652", "33333-44455", 5)
+
+    def test_ostoskori_tyhjentyy(self):
+        # tehdään ostokset
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("ostaja 10", "234-987243")
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(2)
+        self.kauppa.tilimaksu("ostaja 10", "234-987243")
+
+        self.pankki_mock.tilisiirto.assert_called_with("ostaja 10", ANY, "234-987243", ANY, 2)
+
+    def test_viite_muuttuu_kun_uudet_ostokset(self):
+        # tehdään ostokset
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("ostaja 10", "234-987243")
+
+        # tarkistus, että ensimmäinen viite kutsuttu
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 1)
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(2)
+        self.kauppa.tilimaksu("ostaja 10", "234-987243")
+        
+        # tarkistus, että toinen viite kutsuttu
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 2)
