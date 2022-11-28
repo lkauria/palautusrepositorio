@@ -13,12 +13,20 @@ class Ostoskori:
         return self._maara
 
     def hinta(self):
-        return 0
-        # kertoo korissa olevien ostosten yhteenlasketun hinnan
+        return self._hinta
 
     def lisaa_tuote(self, lisattava: Tuote):
-        # lisää tuotteen
-        pass
+        onko_korissa = False
+        ostos = Ostos(lisattava)
+        for ostos_jo_korissa in self._ostoskori:
+            if ostos_jo_korissa.tuotteen_nimi() == ostos.tuotteen_nimi():
+                onko_korissa = True
+                ostos.muuta_lukumaaraa(ostos.lukumaara)
+        if not onko_korissa:
+            self._ostoskori.append(ostos)
+
+        self._maara += self._maara + 1
+        self._hinta += self._hinta + 1
 
     def poista_tuote(self, poistettava: Tuote):
         # poistaa tuotteen
