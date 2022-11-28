@@ -24,9 +24,8 @@ class Ostoskori:
                 ostos.muuta_lukumaaraa(ostos.lukumaara)
         if not onko_korissa:
             self._ostoskori.append(ostos)
-
-        self._maara += self._maara + 1
-        self._hinta += self._hinta + 1
+        self._maara += ostos.lukumaara()
+        self._hinta += ostos.hinta()
 
     def poista_tuote(self, poistettava: Tuote):
         # poistaa tuotteen
