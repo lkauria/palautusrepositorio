@@ -28,12 +28,21 @@ class Ostoskori:
         self._hinta += ostos.hinta()
 
     def poista_tuote(self, poistettava: Tuote):
-        # poistaa tuotteen
-        pass
+        i = 0
+        for ostos in self._ostoskori:
+            if ostos.tuotteen_nimi() == poistettava.nimi():
+                maara = ostos.lukumaara()
+                if maara > 1:
+                    ostos.muuta_lukumaaraa(-1)
+                if maara == 1:
+                    self._ostoskori.pop(i)
+            i += 1
+        self._maara -= 1
 
     def tyhjenna(self):
-        pass
-        # tyhjentää ostoskorin
+        self._ostoskori.clear()
+        self._maara = 0
+        self._hinta = 0
 
     def ostokset(self):
         return self._ostoskori
