@@ -6,14 +6,14 @@ class IntJoukko:
     def __init__(self, kapasiteetti=None, kasvatuskoko=None):
         self.kapasiteetti = KAPASITEETTI
         self.kasvatuskoko = OLETUSKASVATUS
- 
+
         self.ljono = [0] * self.kapasiteetti
-        print(self.ljono)
         self.alkioiden_lkm = 0
 
     def kuuluu(self, n):
         for i in range(self.alkioiden_lkm):
             if n == self.ljono[i]:
+
                 return True
 
         return False
@@ -32,33 +32,26 @@ class IntJoukko:
 
     def poista(self, n):
         kohta = -1
-        apu = 0
 
-        for i in range(0, self.alkioiden_lkm):
-            if n == self.ljono[i]:
-                kohta = i  # siis luku löytyy tuosta kohdasta :D
-                self.ljono[kohta] = 0
+        for i in range(self.alkioiden_lkm): 
+            if n == self.ljono[i]:         
+                kohta = i  
                 break
 
-        if kohta != -1:
-            for j in range(kohta, self.alkioiden_lkm - 1):
-                apu = self.ljono[j]
-                self.ljono[j] = self.ljono[j + 1]
-                self.ljono[j + 1] = apu
+        if kohta != -1:     
+            for j in range(kohta, self.alkioiden_lkm - 1):  
+                self.ljono[j] = self.ljono[j + 1]       
 
             self.alkioiden_lkm = self.alkioiden_lkm - 1
+            
             return True
 
         return False
 
-    def kopioi_taulukko(self, a, b):
-        for i in range(len(a)):
-            b[i] = a[i]
-
-    def mahtavuus(self):
+    def alkioiden_lukumaara(self):
         return self.alkioiden_lkm
 
-    def to_int_list(self):
+    def palauta_jono(self):
         taulu = [0] * self.alkioiden_lkm
 
         for i in range(0, len(taulu)):
@@ -69,8 +62,8 @@ class IntJoukko:
     @staticmethod
     def yhdiste(a, b):
         x = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+        a_taulu = a.palauta_jono()
+        b_taulu = b.palauta_jono()
 
         for i in range(0, len(a_taulu)):
             x.lisaa(a_taulu[i])
@@ -83,8 +76,8 @@ class IntJoukko:
     @staticmethod
     def leikkaus(a, b):
         y = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+        a_taulu = a.palauta_jono()
+        b_taulu = b.palauta_jono()
 
         for i in range(0, len(a_taulu)):
             for j in range(0, len(b_taulu)):
@@ -96,8 +89,8 @@ class IntJoukko:
     @staticmethod
     def erotus(a, b):
         z = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+        a_taulu = a.palauta_jono()
+        b_taulu = b.palauta_jono()
 
         for i in range(0, len(a_taulu)):
             z.lisaa(a_taulu[i])

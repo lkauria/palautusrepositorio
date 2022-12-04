@@ -22,20 +22,20 @@ class TestIntJoukko(unittest.TestCase):
         for luku in lisattavat:
             joukko.lisaa(luku)
 
-        self.assertEqual(joukko.mahtavuus(), 14)
+        self.assertEqual(joukko.alkioiden_lukumaara(), 14)
         self.assertTrue(joukko.kuuluu(11))
         joukko.poista(11)
         self.assertFalse(joukko.kuuluu(11))
-        self.assertEqual(joukko.mahtavuus(), 13)
+        self.assertEqual(joukko.alkioiden_lukumaara(), 13)
 
     def test_lukuja_lisatty_maara(self):
         self.joukko.lisaa(4)
-        self.assertEqual(self.joukko.mahtavuus(), 3)
+        self.assertEqual(self.joukko.alkioiden_lukumaara(), 3)
 
     def test_sama_luku_menee_joukkoon_vaan_kerran(self):
         self.joukko.lisaa(10)
         self.joukko.lisaa(3)
-        self.assertEqual(self.joukko.mahtavuus(), 2)
+        self.assertEqual(self.joukko.alkioiden_lukumaara(), 2)
 
     def test_vain_lisatyt_luvut_loytyvat(self):
         self.assertTrue(self.joukko.kuuluu(10))
@@ -45,7 +45,7 @@ class TestIntJoukko(unittest.TestCase):
     def test_poistettu_ei_ole_enaa_joukossa(self):
         self.joukko.poista(3)
         self.assertFalse(self.joukko.kuuluu(3))
-        self.assertEqual(self.joukko.mahtavuus(), 1)
+        self.assertEqual(self.joukko.alkioiden_lukumaara(), 1)
 
     def test_palautetaan_oikea_taulukko(self):
         odotettu = [3, 55, 99]
@@ -54,7 +54,7 @@ class TestIntJoukko(unittest.TestCase):
         self.joukko.poista(10)
         self.joukko.lisaa(99)
 
-        vastaus = self.joukko.to_int_list()
+        vastaus = self.joukko.palauta_jono()
 
         self.assertListEqual(sorted(vastaus), odotettu)
 
@@ -84,7 +84,7 @@ class TestIntJoukko(unittest.TestCase):
         toka = self.tee_joukko(3, 4)
 
         tulos = IntJoukko.yhdiste(eka, toka)
-        vastauksen_luvut = tulos.to_int_list()
+        vastauksen_luvut = tulos.palauta_jono()
 
         odotettu = [1, 2, 3, 4]
 
@@ -95,7 +95,7 @@ class TestIntJoukko(unittest.TestCase):
         toka = self.tee_joukko(2, 3, 4)
 
         tulos = IntJoukko.leikkaus(eka, toka)
-        vastauksen_luvut = tulos.to_int_list()
+        vastauksen_luvut = tulos.palauta_jono()
 
         odotettu = [2]
 
@@ -106,7 +106,7 @@ class TestIntJoukko(unittest.TestCase):
         toka = self.tee_joukko(2, 3, 4)
 
         tulos = IntJoukko.erotus(eka, toka)
-        vastauksen_luvut = tulos.to_int_list()
+        vastauksen_luvut = tulos.palauta_jono()
 
         odotettu = [1, 5, 6]
 
