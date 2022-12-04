@@ -13,6 +13,7 @@ class Kayttoliittyma:
     def __init__(self, sovelluslogiikka, root):
         self._sovelluslogiikka = sovelluslogiikka
         self._root = root
+        self._edellinen_arvo = 0
 
         self._komennot = {
             Komento.SUMMA: Summa(self._sovelluslogiikka),
